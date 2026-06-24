@@ -1,0 +1,17 @@
+{
+  "name": "@cpatracker/config",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "tsconfig.base.json",
+    "tailwind-preset.js",
+    "eslint-preset.js"
+  ],
+  "dependencies": {
+    "@eslint/js": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.12",
+    "typescript-eslint": "^8.3.0"
+  }
+}
