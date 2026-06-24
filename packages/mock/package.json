@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@cpatracker/types": "workspace:*"
+    "@cpatracker/types": "workspace:*",
+    "@faker-js/faker": "^9.3.0"
   },
   "devDependencies": {
     "typescript": "^5.5.4"
