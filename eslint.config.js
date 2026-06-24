@@ -7,7 +7,7 @@ module.exports = tseslint.config(
     ignores: ['**/dist/**', '**/node_modules/**'],
   },
   {
-    files: ['*.config.js'],
+    files: ['**/*.config.js', '**/*-preset.js'],
     languageOptions: {
       sourceType: 'commonjs',
       globals: { require: 'readonly', module: 'readonly' },
@@ -25,7 +25,7 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ['*.config.js'],
+    files: ['**/*.config.js', '**/*-preset.js'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
     },

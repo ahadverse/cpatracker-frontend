@@ -5,6 +5,10 @@ import animate from 'tailwindcss-animate';
 export default {
   presets: [preset],
   darkMode: 'class',
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{ts,tsx}',
+    '../../packages/ui/src/**/*.{ts,tsx}',
+  ],
   plugins: [animate],
 };

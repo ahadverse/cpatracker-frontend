@@ -1,12 +1,21 @@
-import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { AppShell } from '@cpatracker/ui';
+import { advertiserMenu } from './menu';
 
 function App() {
+  const [currentPath, setCurrentPath] = useState('/');
+
   return (
-    <div className={cn('flex min-h-screen items-center justify-center bg-surface text-white')}>
-      <h1 className="text-2xl font-semibold">
-        Advertiser Portal <span className="text-accent">— monorepo skeleton</span>
-      </h1>
-    </div>
+    <AppShell
+      menu={advertiserMenu}
+      currentPath={currentPath}
+      onNavigate={setCurrentPath}
+      userLabel="Advertiser"
+      notificationCount={0}
+    >
+      <h1 className="text-2xl font-semibold">Dashboard</h1>
+      <p className="mt-2 text-muted-foreground">Current path: {currentPath}</p>
+    </AppShell>
   );
 }
 

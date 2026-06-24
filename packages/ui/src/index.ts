@@ -1,4 +1,19 @@
-// Shared shadcn components + dashboard primitives (shell, sidebar, DataTable,
-// StatCard, Chart, forms, tabs, badges, modals/drawers, toasts) land here in
-// Stage 1. Empty for now so the workspace graph resolves.
-export const UI_PACKAGE_READY = true;
+export * from './theme/ThemeProvider';
+export * from './components/Sidebar';
+export * from './components/Topbar';
+export * from './components/AppShell';
+export * from './components/StatusBadge';
+export * from './components/StatCard';
+export * from './components/Chart';
+export * from './components/DataTable';
+export * from './components/Input';
+export * from './components/Select';
+export * from './components/MultiSelect';
+export * from './components/DateRangePicker';
+export * from './components/Toggle';
+export * from './components/RichText';
+export * from './components/FileUpload';
+export * from './components/Tabs';
+export * from './components/Modal';
+export * from './components/Drawer';
+export * from './components/Toaster';
