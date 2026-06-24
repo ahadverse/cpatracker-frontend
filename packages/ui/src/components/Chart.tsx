@@ -19,21 +19,21 @@ const SERIES_COLORS = [
   'hsl(var(--info))',
 ];
 
-export interface ChartSeries {
-  key: string;
+export interface ChartSeries<TData> {
+  key: Extract<keyof TData, string>;
   label?: string;
   color?: string;
 }
 
-export interface ChartProps {
+export interface ChartProps<TData> {
   type?: 'line' | 'bar';
-  data: Record<string, unknown>[];
-  xKey: string;
-  series: ChartSeries[];
+  data: TData[];
+  xKey: Extract<keyof TData, string>;
+  series: ChartSeries<TData>[];
   height?: number;
 }
 
-export function Chart({ type = 'line', data, xKey, series, height = 280 }: ChartProps) {
+export function Chart<TData>({ type = 'line', data, xKey, series, height = 280 }: ChartProps<TData>) {
   const ChartComponent = type === 'bar' ? RBarChart : RLineChart;
 
   return (

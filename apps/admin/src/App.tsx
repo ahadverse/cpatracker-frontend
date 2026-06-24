@@ -1,24 +1,20 @@
-import { useState } from 'react';
-import { AppShell, Toaster } from '@cpatracker/ui';
-import { adminMenu } from './menu';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Toaster } from '@cpatracker/ui';
+import { Shell } from './Shell';
+import { Dashboard } from './pages/Dashboard';
+import { ComingSoon } from './pages/ComingSoon';
 
 function App() {
-  const [currentPath, setCurrentPath] = useState('/');
-
   return (
-    <>
-      <AppShell
-        menu={adminMenu}
-        currentPath={currentPath}
-        onNavigate={setCurrentPath}
-        userLabel="Admin"
-        notificationCount={3}
-      >
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <p className="mt-2 text-muted-foreground">Current path: {currentPath}</p>
-      </AppShell>
+    <BrowserRouter>
+      <Shell>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="*" element={<ComingSoon />} />
+        </Routes>
+      </Shell>
       <Toaster />
-    </>
+    </BrowserRouter>
   );
 }
 
