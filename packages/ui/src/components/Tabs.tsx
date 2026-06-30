@@ -18,6 +18,7 @@ export function TabsTrigger({ className, ...props }: RTabs.TabsTriggerProps) {
       className={cn(
         'rounded-sm px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors',
         'data-[state=active]:bg-background data-[state=active]:text-foreground',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
         className,
       )}
       {...props}

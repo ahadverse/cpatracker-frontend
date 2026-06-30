@@ -24,7 +24,7 @@ export function Modal({ open, onOpenChange, title, children, className }: ModalP
         >
           <div className="flex items-center justify-between">
             {title && <Dialog.Title className="text-lg font-semibold">{title}</Dialog.Title>}
-            <Dialog.Close className="rounded-sm text-muted-foreground hover:text-foreground">
+            <Dialog.Close className="rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <X className="size-4" />
             </Dialog.Close>
           </div>

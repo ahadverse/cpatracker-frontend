@@ -23,3 +23,9 @@ export const affiliates: Affiliate[] = affiliateUsers.map((user, i) => ({
   points: faker.number.int({ min: 0, max: 5000 }),
   createdAt: faker.date.past({ years: 2 }).toISOString(),
 }));
+
+// Stand-in for a current-user/session concept (the affiliate portal has no auth
+// yet) — same role adminUser plays for the admin app. Forced ACTIVE so the
+// "logged in" affiliate isn't randomly PENDING/SUSPENDED from the fixture roll.
+affiliates[0]!.status = 'ACTIVE';
+export const demoAffiliate: Affiliate = affiliates[0]!;

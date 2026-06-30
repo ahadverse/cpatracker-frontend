@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { ChevronDown, ChevronUp, ChevronsUpDown } from 'lucide-react';
 import { cn } from '../lib/cn';
+import { Skeleton } from './Skeleton';
 
 export interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -20,6 +21,7 @@ export interface DataTableProps<TData> {
   enableRowSelection?: boolean;
   onRowSelectionChange?: (rows: TData[]) => void;
   pageSize?: number;
+  loading?: boolean;
 }
 
 export function DataTable<TData>({
@@ -30,6 +32,7 @@ export function DataTable<TData>({
   enableRowSelection = false,
   onRowSelectionChange,
   pageSize = 10,
+  loading = false,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -81,7 +84,7 @@ export function DataTable<TData>({
                           disabled={!header.column.getCanSort()}
                           onClick={header.column.getToggleSortingHandler()}
                           className={cn(
-                            'flex items-center gap-1',
+                            'flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                             header.column.getCanSort() && 'cursor-pointer hover:text-foreground',
                           )}
                         >
@@ -103,7 +106,17 @@ export function DataTable<TData>({
             ))}
           </thead>
           <tbody>
-            {rows.length === 0 ? (
+            {loading ? (
+              Array.from({ length: Math.min(pageSize, 5) }, (_, i) => (
+                <tr key={i} className="border-b border-border last:border-0">
+                  {columns.map((column, j) => (
+                    <td key={column.id ?? j} className="px-3 py-2">
+                      <Skeleton className="h-4 w-full max-w-32" />
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : rows.length === 0 ? (
               <tr>
                 <td colSpan={columns.length} className="px-3 py-10 text-center text-muted-foreground">
                   {emptyState ?? 'No data.'}
@@ -138,7 +151,7 @@ export function DataTable<TData>({
               type="button"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="rounded-md border border-border px-2 py-1 disabled:opacity-40"
+              className="rounded-md border border-border px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
             >
               Previous
             </button>
@@ -146,7 +159,7 @@ export function DataTable<TData>({
               type="button"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="rounded-md border border-border px-2 py-1 disabled:opacity-40"
+              className="rounded-md border border-border px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
             >
               Next
             </button>

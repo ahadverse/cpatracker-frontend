@@ -21,3 +21,8 @@ export const advertisers: Advertiser[] = advertiserUsers.map((user, i) => ({
   ]),
   createdAt: faker.date.past({ years: 2 }).toISOString(),
 }));
+
+// Stand-in for a current-user/session concept (the advertiser portal has no
+// auth yet) — same role adminUser/demoAffiliate play for the other apps.
+advertisers[0]!.status = 'ACTIVE';
+export const demoAdvertiser: Advertiser = advertisers[0]!;

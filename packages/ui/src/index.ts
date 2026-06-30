@@ -17,3 +17,5 @@ export * from './components/Tabs';
 export * from './components/Modal';
 export * from './components/Drawer';
 export * from './components/Toaster';
+export * from './components/Skeleton';
+export * from './components/LogoMark';

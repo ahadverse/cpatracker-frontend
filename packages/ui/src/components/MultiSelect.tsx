@@ -77,7 +77,7 @@ export function MultiSelect({
                 key={option.value}
                 type="button"
                 onClick={() => toggle(option.value)}
-                className="flex w-full items-center rounded-sm px-2 py-1.5 text-left text-sm hover:bg-accent hover:text-accent-foreground"
+                className="flex w-full items-center rounded-sm px-2 py-1.5 text-left text-sm hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <span className="mr-2 flex size-3.5 items-center justify-center">
                   {selected && <Check className="size-3.5" />}

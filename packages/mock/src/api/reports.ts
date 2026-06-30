@@ -5,7 +5,7 @@ import { conversions } from '../data/conversions';
 import { offers } from '../data/offers';
 import { USE_MOCK } from '../config';
 
-export type PerformanceGroupBy = 'offer' | 'affiliate' | 'advertiser' | 'geo' | 'date';
+export type PerformanceGroupBy = 'offer' | 'affiliate' | 'advertiser' | 'geo' | 'date' | 'affiliate-offer';
 
 export interface PerformanceQuery {
   groupBy: PerformanceGroupBy;
@@ -26,6 +26,8 @@ function groupKeyForClick(click: (typeof clicks)[number], groupBy: PerformanceGr
       return click.geo;
     case 'date':
       return click.createdAt.slice(0, 10);
+    case 'affiliate-offer':
+      return `${click.affiliateId}::${click.offerId}`;
   }
 }
 
@@ -44,6 +46,8 @@ function groupKeyForConversion(
       return clicks.find((c) => c.id === conversion.clickId)?.geo ?? 'unknown';
     case 'date':
       return conversion.createdAt.slice(0, 10);
+    case 'affiliate-offer':
+      return `${conversion.affiliateId}::${conversion.offerId}`;
   }
 }
 
@@ -74,7 +78,7 @@ export async function getPerformanceReport(query: PerformanceQuery): Promise<Per
         uniqueClicks: 0,
         conversions: 0,
         payout: 0,
-        revenue: query.role === 'ADMIN' ? 0 : undefined,
+        revenue: query.role === 'ADMIN' || query.role === 'ADVERTISER' ? 0 : undefined,
         profit: query.role === 'ADMIN' ? 0 : undefined,
         crPercent: 0,
         epc: 0,
@@ -95,8 +99,10 @@ export async function getPerformanceReport(query: PerformanceQuery): Promise<Per
     const row = rowFor(groupKeyForConversion(conversion, query.groupBy));
     row.conversions += 1;
     row.payout += conversion.payout;
-    if (query.role === 'ADMIN') {
+    if (query.role === 'ADMIN' || query.role === 'ADVERTISER') {
       row.revenue = (row.revenue ?? 0) + conversion.revenue;
+    }
+    if (query.role === 'ADMIN') {
       row.profit = (row.profit ?? 0) + conversion.profit;
     }
   }

@@ -10,3 +10,8 @@ export * from './invoice';
 export * from './message';
 export * from './notification';
 export * from './report';
+export * from './smartLink';
+export * from './postbackLog';
+export * from './affiliateGroup';
+export * from './networkSettings';
+export * from './offerAccessRequest';

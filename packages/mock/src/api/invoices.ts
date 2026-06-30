@@ -13,3 +13,13 @@ export async function getInvoices(ownerId?: string, ownerRole?: InvoiceOwnerRole
     return true;
   });
 }
+
+export async function markInvoicePaid(id: string): Promise<Invoice> {
+  await delay();
+  if (!USE_MOCK) throw new Error('Real API not wired yet');
+
+  const invoice = invoices.find((i) => i.id === id);
+  if (!invoice) throw new Error(`Invoice ${id} not found`);
+  invoice.status = 'PAID';
+  return invoice;
+}

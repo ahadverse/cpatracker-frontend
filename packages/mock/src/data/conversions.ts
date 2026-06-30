@@ -15,7 +15,7 @@ const convertingClicks = clicks.filter(
 // instead of regenerating fixtures — see api/conversions.ts.
 export const conversions: AdminConversion[] = convertingClicks.map((click, i) => {
   const offer = offers.find((o) => o.id === click.offerId)!;
-  const payout = offer.payoutRule.amount;
+  const payout = offer.payoutRules[0]!.amount;
   const revenue = Number((payout * faker.number.float({ min: 1.1, max: 1.6, fractionDigits: 2 })).toFixed(2));
 
   return {

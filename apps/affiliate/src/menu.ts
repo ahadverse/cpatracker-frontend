@@ -7,10 +7,11 @@ export const affiliateMenu: MenuConfig = {
   groups: [
     {
       items: [
-        { label: 'Dashboard', path: '/' },
+        { label: 'Dashboard', path: '/', icon: 'dashboard' },
         {
           label: 'Offers',
           path: '/offers',
+          icon: 'offers',
           children: [
             { label: 'Browse Offers', path: '/offers/browse' },
             { label: 'Request Access', path: '/offers/request-access' },
@@ -21,6 +22,7 @@ export const affiliateMenu: MenuConfig = {
         {
           label: 'Reports',
           path: '/reports',
+          icon: 'reports',
           children: [
             { label: 'Performance', path: '/reports/performance' },
             { label: 'Clicks', path: '/reports/clicks' },
@@ -29,12 +31,12 @@ export const affiliateMenu: MenuConfig = {
             { label: 'Postback Logs', path: '/reports/postback-logs' },
           ],
         },
-        { label: 'Payments', path: '/payments' },
-        { label: 'Messages', path: '/messages' },
-        { label: 'Referral Program', path: '/referral' },
-        { label: 'Profile', path: '/profile' },
-        { label: 'Postback Setup', path: '/postback-setup' },
-        { label: 'Logout', path: '/logout' },
+        { label: 'Payments', path: '/payments', icon: 'payments' },
+        { label: 'Messages', path: '/messages', icon: 'messages' },
+        { label: 'Referral Program', path: '/referral', icon: 'referral' },
+        { label: 'Profile', path: '/profile', icon: 'profile' },
+        { label: 'Postback Setup', path: '/postback-setup', icon: 'postback' },
+        { label: 'Logout', path: '/logout', icon: 'logout' },
       ],
     },
   ],
