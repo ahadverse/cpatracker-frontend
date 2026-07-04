@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ColumnDef } from '@tanstack/react-table';
-import { deleteNews, getNews } from '@cpatracker/mock';
+import { deleteNews, getNewsAdmin } from '@cpatracker/mock';
 import type { NewsPost } from '@cpatracker/types';
-import { DataTable, toast } from '@cpatracker/ui';
+import { DataTable, StatusBadge, toast } from '@cpatracker/ui';
 
 export function NewsList() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export function NewsList() {
 
   async function load() {
     setLoading(true);
-    setPosts(await getNews());
+    setPosts(await getNewsAdmin());
     setLoading(false);
   }
 
@@ -27,7 +27,35 @@ export function NewsList() {
   }
 
   const columns: ColumnDef<NewsPost>[] = [
+    {
+      id: 'thumbnail',
+      header: '',
+      cell: ({ row }) =>
+        row.original.thumbnailUrl ? (
+          <img
+            src={row.original.thumbnailUrl}
+            alt=""
+            className="h-10 w-16 rounded border border-border object-cover"
+          />
+        ) : (
+          <div className="h-10 w-16 rounded border border-border bg-muted" />
+        ),
+    },
     { accessorKey: 'title', header: 'Title' },
+    {
+      id: 'category',
+      header: 'Category',
+      accessorFn: (post) => post.category ?? '—',
+    },
+    {
+      id: 'status',
+      header: 'Status',
+      cell: ({ row }) => (
+        <StatusBadge variant={row.original.status === 'PUBLISHED' ? 'success' : 'neutral'}>
+          {row.original.status}
+        </StatusBadge>
+      ),
+    },
     {
       id: 'publishedAt',
       header: 'Published',

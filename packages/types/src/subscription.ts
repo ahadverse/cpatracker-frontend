@@ -1,7 +1,9 @@
+// Seed tier ids for the default plans. Plan ids are widened to `string` so the
+// super-admin can create additional plans beyond these three.
 export type PlanTier = 'STARTER' | 'GROWTH' | 'ENTERPRISE';
 
 export interface Plan {
-  id: PlanTier;
+  id: string;
   name: string;
   price: number;
   features: string[];
@@ -11,7 +13,7 @@ export type SubscriptionStatus = 'ACTIVE' | 'PAST_DUE' | 'CANCELLED';
 
 export interface Subscription {
   tenantId: string;
-  plan: PlanTier;
+  plan: string;
   status: SubscriptionStatus;
   nextBillingDate: string;
 }

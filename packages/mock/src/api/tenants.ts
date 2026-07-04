@@ -36,7 +36,7 @@ export async function getTenant(id: string): Promise<Tenant | undefined> {
 export interface CreateTenantInput {
   companyName: string;
   contactEmail: string;
-  plan: PlanTier;
+  plan: string;
 }
 
 export async function createTenant(input: CreateTenantInput): Promise<Tenant> {
