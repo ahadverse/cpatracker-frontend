@@ -1,10 +1,12 @@
-import type { Click, ClickQualityStatus, SubIds } from '@cpatracker/types';
+import type { Click, ClickOS, ClickQualityStatus, SubIds } from '@cpatracker/types';
 import { faker } from '../faker';
 import { affiliates } from './affiliates';
 import { offers } from './offers';
+import { smartLinks } from './smartLinks';
 
 const COUNT = 250;
 const QUALITY_STATUSES: ClickQualityStatus[] = ['VALID', 'SUSPICIOUS', 'BOT', 'PROXY', 'DUPLICATE'];
+const OS_VALUES: ClickOS[] = ['WINDOWS', 'MACOS', 'IOS', 'ANDROID', 'LINUX'];
 
 function makeSubIds(): SubIds {
   const subIds: SubIds = {};
@@ -25,6 +27,8 @@ export const clicks: Click[] = Array.from({ length: COUNT }, (_, i) => {
     affiliateId: affiliate.id,
     geo: faker.location.countryCode(),
     device: faker.helpers.arrayElement(['DESKTOP', 'MOBILE', 'TABLET']),
+    os: faker.helpers.arrayElement(OS_VALUES),
+    smartLinkId: faker.datatype.boolean(0.3) ? faker.helpers.arrayElement(smartLinks).id : undefined,
     asn: `AS${faker.number.int({ min: 1000, max: 99999 })}`,
     isUnique: faker.datatype.boolean(0.85),
     qualityStatus: faker.helpers.weightedArrayElement([

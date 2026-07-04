@@ -25,6 +25,7 @@ export function Profile() {
   const [name, setName] = useState(demoAffiliate.name);
   const [company, setCompany] = useState(demoAffiliate.company ?? '');
   const [country, setCountry] = useState(demoAffiliate.country);
+  const [phone, setPhone] = useState(demoAffiliate.registration.phone);
   const [saving, setSaving] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState('');
@@ -51,6 +52,7 @@ export function Profile() {
         name: name.trim(),
         company: company.trim() || undefined,
         country: country.trim().toUpperCase(),
+        phone: phone.trim(),
       });
       toast.success('Profile updated');
     } finally {
@@ -104,7 +106,10 @@ export function Profile() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        <StatCard label="Points Balance" value={demoAffiliate.points.toLocaleString()} />
+        <StatCard
+          label="Points Balance"
+          value={totalEarned === null ? '—' : Math.floor(totalEarned / 50).toLocaleString()}
+        />
         <StatCard
           label="Total Earned (approved)"
           value={totalEarned === null ? '—' : `$${totalEarned.toFixed(2)}`}
@@ -136,6 +141,11 @@ export function Profile() {
             <Input value={user?.email ?? ''} disabled placeholder="Loading..." />
             <p className="text-xs text-muted-foreground">Contact the network admin to change your email.</p>
           </div>
+
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-foreground">Phone</label>
+            <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Phone number" />
+          </div>
         </div>
 
         <button
@@ -146,6 +156,54 @@ export function Profile() {
         >
           {saving ? 'Saving...' : 'Save changes'}
         </button>
+      </div>
+
+      <div className="space-y-4 rounded-lg border border-border bg-card p-4">
+        <h3 className="text-sm font-medium text-muted-foreground">Registration Info</h3>
+        <p className="text-xs text-muted-foreground">Captured when this affiliate joined the network.</p>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Address</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.address || '—'}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">City</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.city || '—'}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">State / Region</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.region || '—'}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Postal Code</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.postalCode || '—'}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Tax ID</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.taxId ?? '—'}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Preferred Payment Method</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.preferredPaymentMethod}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Website</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.website ?? '—'}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Company Size</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.companySize}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Timezone</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.timezone}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Referral Source</p>
+            <p className="text-sm text-card-foreground">{demoAffiliate.registration.referralSource ?? '—'}</p>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4 rounded-lg border border-border bg-card p-4">

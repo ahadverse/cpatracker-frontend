@@ -1,10 +1,14 @@
 import type { Advertiser, AdvertiserStatus } from '@cpatracker/types';
 import { delay } from '../delay';
 import { advertiserUsers, advertisers } from '../data/advertisers';
+import { emptyRegistrationInfo } from '../data/registration';
 import { USE_MOCK } from '../config';
 
 export interface AdvertiserFilters {
   status?: Advertiser['status'];
+  country?: string;
+  dateFrom?: string;
+  dateTo?: string;
 }
 
 export async function getAdvertisers(filters?: AdvertiserFilters): Promise<Advertiser[]> {
@@ -13,6 +17,9 @@ export async function getAdvertisers(filters?: AdvertiserFilters): Promise<Adver
 
   return advertisers.filter((advertiser) => {
     if (filters?.status && advertiser.status !== filters.status) return false;
+    if (filters?.country && advertiser.country !== filters.country) return false;
+    if (filters?.dateFrom && advertiser.createdAt < filters.dateFrom) return false;
+    if (filters?.dateTo && advertiser.createdAt > filters.dateTo) return false;
     return true;
   });
 }
@@ -45,6 +52,7 @@ export async function createAdvertiser(input: CreateAdvertiserInput): Promise<Ad
     company: input.company,
     country: input.country,
     status: 'PENDING',
+    registration: emptyRegistrationInfo(),
     createdAt: new Date().toISOString(),
   };
   advertisers.push(advertiser);
@@ -65,6 +73,7 @@ export interface UpdateAdvertiserProfileInput {
   name: string;
   company: string;
   country: string;
+  phone?: string;
 }
 
 export async function updateAdvertiserProfile(id: string, input: UpdateAdvertiserProfileInput): Promise<Advertiser> {
@@ -76,6 +85,7 @@ export async function updateAdvertiserProfile(id: string, input: UpdateAdvertise
   advertiser.name = input.name;
   advertiser.company = input.company;
   advertiser.country = input.country;
+  if (input.phone !== undefined) advertiser.registration.phone = input.phone;
   return advertiser;
 }
 

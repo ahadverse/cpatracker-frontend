@@ -7,9 +7,11 @@ import { CreateOffer } from './pages/offers/CreateOffer';
 import { Performance } from './pages/Performance';
 import { Conversions } from './pages/Conversions';
 import { Billing } from './pages/Billing';
+import { Subscription } from './pages/Subscription';
 import { NotFound } from './pages/NotFound';
 import { PostbackSetup } from './pages/PostbackSetup';
 import { Messages } from './pages/Messages';
+import { News } from './pages/News';
 import { Profile } from './pages/Profile';
 import { Logout } from './pages/Logout';
 
@@ -24,8 +26,10 @@ function App() {
           <Route path="/performance" element={<Performance />} />
           <Route path="/conversions" element={<Conversions />} />
           <Route path="/billing" element={<Billing />} />
+          <Route path="/subscription" element={<Subscription />} />
           <Route path="/postback-setup" element={<PostbackSetup />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/news" element={<News />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<NotFound />} />

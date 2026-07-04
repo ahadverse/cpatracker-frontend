@@ -4,6 +4,8 @@ export type InvoiceStatus = 'PAID' | 'PENDING';
 export interface InvoiceLineItem {
   description: string;
   amount: number;
+  offerId?: string;
+  offerName?: string;
 }
 
 export interface Invoice {

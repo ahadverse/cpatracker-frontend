@@ -1,4 +1,4 @@
-import type { AdminConversion, ConversionStatus } from '@cpatracker/types';
+import type { NetworkAdminConversion, ConversionStatus } from '@cpatracker/types';
 import { faker } from '../faker';
 import { clicks } from './clicks';
 import { offers } from './offers';
@@ -9,11 +9,11 @@ const convertingClicks = clicks.filter(
   (click) => click.qualityStatus === 'VALID' && faker.datatype.boolean(0.3),
 );
 
-// AdminConversion carries every money field (revenue/payout/profit); the
+// NetworkAdminConversion carries every money field (revenue/payout/profit); the
 // role-scoped api functions (getAffiliateConversions/getAdvertiserConversions)
 // strip fields down to AffiliateConversion/AdvertiserConversion at the boundary
 // instead of regenerating fixtures — see api/conversions.ts.
-export const conversions: AdminConversion[] = convertingClicks.map((click, i) => {
+export const conversions: NetworkAdminConversion[] = convertingClicks.map((click, i) => {
   const offer = offers.find((o) => o.id === click.offerId)!;
   const payout = offer.payoutRules[0]!.amount;
   const revenue = Number((payout * faker.number.float({ min: 1.1, max: 1.6, fractionDigits: 2 })).toFixed(2));

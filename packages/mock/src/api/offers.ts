@@ -1,4 +1,4 @@
-import type { Offer, OfferStatus } from '@cpatracker/types';
+import type { Offer, OfferStatus, TrafficType } from '@cpatracker/types';
 import { delay } from '../delay';
 import { offers } from '../data/offers';
 import { USE_MOCK } from '../config';
@@ -6,6 +6,10 @@ import { USE_MOCK } from '../config';
 export interface OfferFilters {
   advertiserId?: string;
   status?: OfferStatus;
+  category?: string;
+  trafficType?: TrafficType;
+  dateFrom?: string;
+  dateTo?: string;
 }
 
 export async function getOffers(filters?: OfferFilters): Promise<Offer[]> {
@@ -15,6 +19,10 @@ export async function getOffers(filters?: OfferFilters): Promise<Offer[]> {
   return offers.filter((offer) => {
     if (filters?.advertiserId && offer.advertiserId !== filters.advertiserId) return false;
     if (filters?.status && offer.status !== filters.status) return false;
+    if (filters?.category && offer.category !== filters.category) return false;
+    if (filters?.trafficType && !offer.trafficTypes.includes(filters.trafficType)) return false;
+    if (filters?.dateFrom && offer.createdAt < filters.dateFrom) return false;
+    if (filters?.dateTo && offer.createdAt > filters.dateTo) return false;
     return true;
   });
 }

@@ -5,7 +5,7 @@ import { invoices } from '../data/invoices';
 import { offers } from '../data/offers';
 import { USE_MOCK } from '../config';
 
-export interface AdminDashboardStats {
+export interface NetworkAdminDashboardStats {
   clicks: number;
   conversionsApproved: number;
   conversionsPending: number;
@@ -29,7 +29,7 @@ export interface AdvertiserDashboardStats {
   revenueOwed: number;
 }
 
-export async function getAdminDashboardStats(): Promise<AdminDashboardStats> {
+export async function getNetworkAdminDashboardStats(): Promise<NetworkAdminDashboardStats> {
   await delay();
   if (!USE_MOCK) throw new Error('Real API not wired yet');
 

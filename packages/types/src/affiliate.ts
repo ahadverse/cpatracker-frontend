@@ -1,3 +1,5 @@
+import type { RegistrationInfo } from './registration';
+
 export type AffiliateStatus = 'ACTIVE' | 'PENDING' | 'SUSPENDED';
 
 export interface Affiliate {
@@ -8,7 +10,7 @@ export interface Affiliate {
   country: string;
   status: AffiliateStatus;
   referredBy?: string;
-  points: number;
   postbackUrl?: string;
+  registration: RegistrationInfo;
   createdAt: string;
 }

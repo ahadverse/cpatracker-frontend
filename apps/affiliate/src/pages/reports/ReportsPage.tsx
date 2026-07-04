@@ -2,15 +2,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@cpatracker/ui';
 import { PerformanceTab } from './PerformanceTab';
 import { ClicksTab } from './ClicksTab';
 import { ConversionsTab } from './ConversionsTab';
-import { SubIdTrackingTab } from './SubIdTrackingTab';
-import { PostbackLogsTab } from './PostbackLogsTab';
 
 const TABS = [
   { value: 'performance', label: 'Performance' },
   { value: 'clicks', label: 'Clicks' },
   { value: 'conversions', label: 'Conversions' },
-  { value: 'sub-id-tracking', label: 'Sub-ID Tracking' },
-  { value: 'postback-logs', label: 'Postback Logs' },
 ] as const;
 
 export interface ReportsPageProps {
@@ -39,12 +35,6 @@ export function ReportsPage({ initialTab = 'performance' }: ReportsPageProps) {
         </TabsContent>
         <TabsContent value="conversions">
           <ConversionsTab />
-        </TabsContent>
-        <TabsContent value="sub-id-tracking">
-          <SubIdTrackingTab />
-        </TabsContent>
-        <TabsContent value="postback-logs">
-          <PostbackLogsTab />
         </TabsContent>
       </Tabs>
     </div>

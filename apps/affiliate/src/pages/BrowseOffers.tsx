@@ -4,22 +4,37 @@ import {
   demoAffiliate,
   getAdvertisers,
   getOfferAccessRequests,
+  getOfferCategories,
   getOffers,
   requestOfferAccess,
 } from '@cpatracker/mock';
-import type { Advertiser, Offer, OfferAccessRequest } from '@cpatracker/types';
-import { DataTable, StatusBadge, toast } from '@cpatracker/ui';
+import type { Advertiser, Offer, OfferAccessRequest, TrafficType } from '@cpatracker/types';
+import { DataTable, Select, StatusBadge, toast } from '@cpatracker/ui';
+
+const TRAFFIC_TYPE_OPTIONS: { value: TrafficType; label: string }[] = [
+  'BANNER_DISPLAY',
+  'SOCIAL_MEDIA',
+  'SEARCH_PPC',
+  'EMAILING',
+  'NATIVE',
+  'MOBILE_TRAFFIC',
+  'INCENT_TRAFFIC',
+  'NO_INCENT',
+].map((value) => ({ value: value as TrafficType, label: value.replace(/_/g, ' ') }));
 
 export function BrowseOffers() {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [advertisers, setAdvertisers] = useState<Advertiser[]>([]);
   const [requests, setRequests] = useState<OfferAccessRequest[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [category, setCategory] = useState<string>();
+  const [trafficType, setTrafficType] = useState<TrafficType>();
   const [loading, setLoading] = useState(true);
 
   async function load() {
     setLoading(true);
     const [offerRows, advertiserRows, requestRows] = await Promise.all([
-      getOffers({ status: 'APPROVED' }),
+      getOffers({ status: 'APPROVED', category, trafficType }),
       getAdvertisers(),
       getOfferAccessRequests(demoAffiliate.id),
     ]);
@@ -30,8 +45,13 @@ export function BrowseOffers() {
   }
 
   useEffect(() => {
-    load();
+    getOfferCategories().then(setCategories);
   }, []);
+
+  useEffect(() => {
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, trafficType]);
 
   const advertiserNames = useMemo(() => new Map(advertisers.map((a) => [a.id, a.name])), [advertisers]);
   const requestByOffer = useMemo(() => new Map(requests.map((r) => [r.offerId, r])), [requests]);
@@ -86,7 +106,30 @@ export function BrowseOffers() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Browse Offers</h1>
 
-      <DataTable columns={columns} data={offers} loading={loading} emptyState="No offers available." />
+      <DataTable
+        columns={columns}
+        data={offers}
+        loading={loading}
+        emptyState="No offers available."
+        filterBar={
+          <div className="flex flex-wrap gap-3">
+            <Select
+              options={categories.map((c) => ({ value: c, label: c }))}
+              value={category}
+              onValueChange={setCategory}
+              placeholder="All categories"
+              className="w-48"
+            />
+            <Select
+              options={TRAFFIC_TYPE_OPTIONS}
+              value={trafficType}
+              onValueChange={(value) => setTrafficType(value as TrafficType)}
+              placeholder="All traffic types"
+              className="w-52"
+            />
+          </div>
+        }
+      />
     </div>
   );
 }

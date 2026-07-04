@@ -1,3 +1,5 @@
+import type { RegistrationInfo } from './registration';
+
 export type AdvertiserStatus = 'ACTIVE' | 'PENDING' | 'SUSPENDED';
 
 export interface Advertiser {
@@ -8,5 +10,6 @@ export interface Advertiser {
   country: string;
   status: AdvertiserStatus;
   postbackUrl?: string;
+  registration: RegistrationInfo;
   createdAt: string;
 }

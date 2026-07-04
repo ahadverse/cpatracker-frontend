@@ -1,4 +1,4 @@
-import type { PerformanceReportRow, Role } from '@cpatracker/types';
+import type { Click, PerformanceReportRow, Role } from '@cpatracker/types';
 import { delay } from '../delay';
 import { clicks } from '../data/clicks';
 import { conversions } from '../data/conversions';
@@ -12,6 +12,24 @@ export interface PerformanceQuery {
   role: Role;
   affiliateId?: string;
   advertiserId?: string;
+  offerId?: string;
+  os?: Click['os'];
+  smartLinkId?: string;
+  countries?: string[];
+  devices?: Click['device'][];
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+function clickMatchesQuery(click: Click, query: PerformanceQuery): boolean {
+  if (query.offerId && click.offerId !== query.offerId) return false;
+  if (query.os && click.os !== query.os) return false;
+  if (query.smartLinkId && click.smartLinkId !== query.smartLinkId) return false;
+  if (query.countries?.length && !query.countries.includes(click.geo)) return false;
+  if (query.devices?.length && !query.devices.includes(click.device)) return false;
+  if (query.dateFrom && click.createdAt < query.dateFrom) return false;
+  if (query.dateTo && click.createdAt > query.dateTo) return false;
+  return true;
 }
 
 function groupKeyForClick(click: (typeof clicks)[number], groupBy: PerformanceGroupBy): string {
@@ -59,11 +77,22 @@ export async function getPerformanceReport(query: PerformanceQuery): Promise<Per
     if (query.affiliateId && click.affiliateId !== query.affiliateId) return false;
     if (query.advertiserId && offers.find((o) => o.id === click.offerId)?.advertiserId !== query.advertiserId)
       return false;
-    return true;
+    return clickMatchesQuery(click, query);
   });
   const scopedConversions = conversions.filter((conversion) => {
     if (query.affiliateId && conversion.affiliateId !== query.affiliateId) return false;
     if (query.advertiserId && conversion.advertiserId !== query.advertiserId) return false;
+    if (query.offerId && conversion.offerId !== query.offerId) return false;
+    if (query.dateFrom && conversion.createdAt < query.dateFrom) return false;
+    if (query.dateTo && conversion.createdAt > query.dateTo) return false;
+    if (query.os || query.smartLinkId || query.countries?.length || query.devices?.length) {
+      const click = clicks.find((c) => c.id === conversion.clickId);
+      if (!click) return false;
+      if (query.os && click.os !== query.os) return false;
+      if (query.smartLinkId && click.smartLinkId !== query.smartLinkId) return false;
+      if (query.countries?.length && !query.countries.includes(click.geo)) return false;
+      if (query.devices?.length && !query.devices.includes(click.device)) return false;
+    }
     return true;
   });
 
@@ -78,8 +107,8 @@ export async function getPerformanceReport(query: PerformanceQuery): Promise<Per
         uniqueClicks: 0,
         conversions: 0,
         payout: 0,
-        revenue: query.role === 'ADMIN' || query.role === 'ADVERTISER' ? 0 : undefined,
-        profit: query.role === 'ADMIN' ? 0 : undefined,
+        revenue: query.role === 'NETWORK_ADMIN' || query.role === 'ADVERTISER' ? 0 : undefined,
+        profit: query.role === 'NETWORK_ADMIN' ? 0 : undefined,
         crPercent: 0,
         epc: 0,
       };
@@ -99,10 +128,10 @@ export async function getPerformanceReport(query: PerformanceQuery): Promise<Per
     const row = rowFor(groupKeyForConversion(conversion, query.groupBy));
     row.conversions += 1;
     row.payout += conversion.payout;
-    if (query.role === 'ADMIN' || query.role === 'ADVERTISER') {
+    if (query.role === 'NETWORK_ADMIN' || query.role === 'ADVERTISER') {
       row.revenue = (row.revenue ?? 0) + conversion.revenue;
     }
-    if (query.role === 'ADMIN') {
+    if (query.role === 'NETWORK_ADMIN') {
       row.profit = (row.profit ?? 0) + conversion.profit;
     }
   }

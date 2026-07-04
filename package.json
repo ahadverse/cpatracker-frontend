@@ -4,9 +4,10 @@
   "private": true,
   "packageManager": "pnpm@10.15.0",
   "scripts": {
-    "dev:admin": "pnpm --filter admin dev",
+    "dev:network-admin": "pnpm --filter network-admin dev",
     "dev:affiliate": "pnpm --filter affiliate dev",
     "dev:advertiser": "pnpm --filter advertiser dev",
+    "dev:super-admin": "pnpm --filter super-admin dev",
     "build": "pnpm -r build",
     "lint": "eslint .",
     "format": "prettier --write .",

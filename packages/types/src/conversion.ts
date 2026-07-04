@@ -19,7 +19,7 @@ export interface ConversionBase {
   createdAt: string;
 }
 
-export interface AdminConversion extends ConversionBase {
+export interface NetworkAdminConversion extends ConversionBase {
   revenue: number;
   payout: number;
   profit: number;

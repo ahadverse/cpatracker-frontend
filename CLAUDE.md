@@ -18,7 +18,7 @@ data layer, backend later. Full scope in docs/frontend-plan.md.
 ## Monorepo structure
 
 ```
-apps/admin  apps/affiliate  apps/advertiser
+apps/network-admin  apps/affiliate  apps/advertiser
 packages/ui      # shared shadcn components + dashboard primitives + theme
 packages/mock    # typed mock data + async api layer (the backend swap point)
 packages/types   # shared TS types (also used by the future backend)

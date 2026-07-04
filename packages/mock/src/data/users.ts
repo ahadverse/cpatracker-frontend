@@ -17,7 +17,11 @@ export function makeUser(role: Role, id: string): User {
 export const adminUser: User = {
   id: 'user-admin-1',
   email: 'admin@cpatracker.dev',
-  role: 'ADMIN',
+  role: 'NETWORK_ADMIN',
   status: 'ACTIVE',
   lastLoginAt: new Date().toISOString(),
 };
+
+// Stand-in for "the network this admin operates," so the admin's own platform
+// subscription can be looked up via the existing tenant/subscription api.
+export const adminTenantId = 'tenant-1';

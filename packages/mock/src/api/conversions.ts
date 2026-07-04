@@ -1,4 +1,4 @@
-import type { AdminConversion, AdvertiserConversion, AffiliateConversion } from '@cpatracker/types';
+import type { NetworkAdminConversion, AdvertiserConversion, AffiliateConversion } from '@cpatracker/types';
 import { delay } from '../delay';
 import { conversions } from '../data/conversions';
 import { USE_MOCK } from '../config';
@@ -8,7 +8,7 @@ import { USE_MOCK } from '../config';
 // Each function strips fields at the boundary rather than the caller trusting
 // itself to ignore fields it shouldn't read.
 
-export async function getAdminConversions(): Promise<AdminConversion[]> {
+export async function getNetworkAdminConversions(): Promise<NetworkAdminConversion[]> {
   await delay();
   if (!USE_MOCK) throw new Error('Real API not wired yet');
   return conversions;

@@ -1,6 +1,7 @@
 import type { Advertiser, User } from '@cpatracker/types';
 import { faker } from '../faker';
 import { makeUser } from './users';
+import { makeRegistrationInfo } from './registration';
 
 const COUNT = 8;
 
@@ -19,6 +20,7 @@ export const advertisers: Advertiser[] = advertiserUsers.map((user, i) => ({
     { value: 'PENDING', weight: 1 },
     { value: 'SUSPENDED', weight: 1 },
   ]),
+  registration: makeRegistrationInfo(),
   createdAt: faker.date.past({ years: 2 }).toISOString(),
 }));
 

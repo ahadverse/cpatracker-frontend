@@ -5,6 +5,8 @@ import { USE_MOCK } from '../config';
 
 export interface ManagerFilters {
   kind?: ManagerKind;
+  dateFrom?: string;
+  dateTo?: string;
 }
 
 export async function getManagers(filters?: ManagerFilters): Promise<Manager[]> {
@@ -13,6 +15,8 @@ export async function getManagers(filters?: ManagerFilters): Promise<Manager[]> 
 
   return managers.filter((manager) => {
     if (filters?.kind && manager.kind !== filters.kind) return false;
+    if (filters?.dateFrom && manager.createdAt < filters.dateFrom) return false;
+    if (filters?.dateTo && manager.createdAt > filters.dateTo) return false;
     return true;
   });
 }

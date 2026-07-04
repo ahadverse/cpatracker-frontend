@@ -1,7 +1,8 @@
 export { USE_MOCK } from './config';
-export { adminUser } from './data/users';
+export { adminUser, adminTenantId } from './data/users';
 export { demoAffiliate } from './data/affiliates';
 export { demoAdvertiser } from './data/advertisers';
+export { demoSuperAdmin } from './data/superAdmin';
 
 export * from './api/offers';
 export * from './api/affiliates';
@@ -21,3 +22,9 @@ export * from './api/networkSettings';
 export * from './api/users';
 export * from './api/offerAccessRequests';
 export * from './api/offerCategories';
+export * from './api/tenants';
+export * from './api/billing';
+export * from './api/emailTemplates';
+export * from './api/staff';
+export * from './api/advertiserSubscriptions';
+export * from './api/news';

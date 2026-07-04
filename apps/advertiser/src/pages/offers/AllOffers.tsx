@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ColumnDef } from '@tanstack/react-table';
 import { demoAdvertiser, getOffers } from '@cpatracker/mock';
-import type { Offer } from '@cpatracker/types';
-import { DataTable, StatusBadge } from '@cpatracker/ui';
+import type { Offer, OfferStatus } from '@cpatracker/types';
+import { DataTable, DateRangePicker, Select, StatusBadge, type DateRange } from '@cpatracker/ui';
 
 const STATUS_VARIANT: Record<Offer['status'], 'warning' | 'success' | 'destructive' | 'neutral'> = {
   PENDING: 'warning',
@@ -13,17 +13,33 @@ const STATUS_VARIANT: Record<Offer['status'], 'warning' | 'success' | 'destructi
   DELETED: 'destructive',
 };
 
+const STATUS_OPTIONS: { value: OfferStatus; label: string }[] = [
+  { value: 'PENDING', label: 'Pending' },
+  { value: 'APPROVED', label: 'Approved' },
+  { value: 'REJECTED', label: 'Rejected' },
+  { value: 'PAUSED', label: 'Paused' },
+  { value: 'DELETED', label: 'Deleted' },
+];
+
 export function AllOffers() {
   const navigate = useNavigate();
   const [offers, setOffers] = useState<Offer[]>([]);
+  const [status, setStatus] = useState<OfferStatus>();
+  const [dateRange, setDateRange] = useState<DateRange>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getOffers({ advertiserId: demoAdvertiser.id }).then((rows) => {
+    setLoading(true);
+    getOffers({
+      advertiserId: demoAdvertiser.id,
+      status,
+      dateFrom: dateRange?.from?.toISOString(),
+      dateTo: dateRange?.to?.toISOString(),
+    }).then((rows) => {
       setOffers(rows);
       setLoading(false);
     });
-  }, []);
+  }, [status, dateRange]);
 
   const columns: ColumnDef<Offer>[] = [
     { accessorKey: 'name', header: 'Name' },
@@ -54,7 +70,24 @@ export function AllOffers() {
         </button>
       </div>
 
-      <DataTable columns={columns} data={offers} loading={loading} emptyState="No offers yet." />
+      <DataTable
+        columns={columns}
+        data={offers}
+        loading={loading}
+        emptyState="No offers yet."
+        filterBar={
+          <div className="flex flex-wrap gap-3">
+            <Select
+              options={STATUS_OPTIONS}
+              value={status}
+              onValueChange={(value) => setStatus(value as OfferStatus)}
+              placeholder="All statuses"
+              className="w-44"
+            />
+            <DateRangePicker value={dateRange} onValueChange={setDateRange} />
+          </div>
+        }
+      />
     </div>
   );
 }

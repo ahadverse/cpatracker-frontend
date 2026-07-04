@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { DayPicker, type DateRange } from 'react-day-picker';
+
+export type { DateRange };
 import { CalendarRange } from 'lucide-react';
 import { cn } from '../lib/cn';
 import 'react-day-picker/style.css';

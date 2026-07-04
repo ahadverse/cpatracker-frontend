@@ -10,6 +10,7 @@ export interface SubIds {
 }
 
 export type ClickQualityStatus = 'VALID' | 'SUSPICIOUS' | 'BOT' | 'PROXY' | 'DUPLICATE';
+export type ClickOS = 'WINDOWS' | 'MACOS' | 'IOS' | 'ANDROID' | 'LINUX';
 
 export interface Click {
   id: string;
@@ -17,6 +18,8 @@ export interface Click {
   affiliateId: string;
   geo: string;
   device: 'DESKTOP' | 'MOBILE' | 'TABLET';
+  os: ClickOS;
+  smartLinkId?: string;
   asn: string;
   isUnique: boolean;
   qualityStatus: ClickQualityStatus;
