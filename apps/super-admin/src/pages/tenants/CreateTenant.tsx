@@ -1,22 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createTenant } from '@cpatracker/mock';
-import type { PlanTier } from '@cpatracker/types';
+import { createTenant, getPlans } from '@cpatracker/mock';
+import type { Plan } from '@cpatracker/types';
 import { Input, Select, toast } from '@cpatracker/ui';
-
-const PLAN_OPTIONS: { value: PlanTier; label: string }[] = [
-  { value: 'STARTER', label: 'Starter' },
-  { value: 'GROWTH', label: 'Growth' },
-  { value: 'ENTERPRISE', label: 'Enterprise' },
-];
 
 export function CreateTenant() {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
+  const [plans, setPlans] = useState<Plan[]>([]);
 
   const [companyName, setCompanyName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
-  const [plan, setPlan] = useState<PlanTier>();
+  const [plan, setPlan] = useState<string>();
+
+  useEffect(() => {
+    getPlans().then(setPlans);
+  }, []);
+
+  const planOptions = plans.map((p) => ({ value: p.id, label: p.name }));
 
   const valid = companyName.trim().length > 0 && contactEmail.trim().length > 0 && !!plan;
 
@@ -55,9 +56,9 @@ export function CreateTenant() {
         <div className="space-y-1.5">
           <label className="text-sm font-medium text-foreground">Plan</label>
           <Select
-            options={PLAN_OPTIONS}
+            options={planOptions}
             value={plan}
-            onValueChange={(value) => setPlan(value as PlanTier)}
+            onValueChange={setPlan}
             placeholder="Select a plan"
           />
         </div>

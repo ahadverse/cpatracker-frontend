@@ -20,7 +20,6 @@ export const advertiserMenu: MenuConfig = {
         { label: 'Conversions', path: '/conversions', icon: 'reports' },
         { label: 'Postback Setup', path: '/postback-setup', icon: 'postback' },
         { label: 'Billing', path: '/billing', icon: 'billing' },
-        { label: 'Subscription', path: '/subscription', icon: 'subscription' },
         { label: 'Messages', path: '/messages', icon: 'messages' },
         { label: 'News', path: '/news', icon: 'news' },
         { label: 'Profile', path: '/profile', icon: 'profile' },

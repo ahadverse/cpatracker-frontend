@@ -13,6 +13,7 @@ export * from './components/DateRangePicker';
 export * from './components/Toggle';
 export * from './components/RichText';
 export * from './components/FileUpload';
+export * from './components/NewsGrid';
 export * from './components/Tabs';
 export * from './components/Modal';
 export * from './components/Drawer';
